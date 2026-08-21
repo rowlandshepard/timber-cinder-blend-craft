@@ -1,0 +1,38 @@
+{
+  "url": "http://127.0.0.1:8081/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Cell Division Cards",
+      "hasCanvas": false,
+      "bodyTextLen": 606,
+      "bodyTextHash": "f5f094c85adb600d8c563993ef8a6952c6f1106a4444b671f9456b4baca6a58e",
+      "bodyTextPrefix": "LECTURE 3 Cell Division Cards The cell and cell division. Flip a",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Cell Division Cards",
+      "hasCanvas": false,
+      "bodyTextLen": 606,
+      "bodyTextHash": "f5f094c85adb600d8c563993ef8a6952c6f1106a4444b671f9456b4baca6a58e",
+      "bodyTextPrefix": "LECTURE 3 Cell Division Cards The cell and cell division. Flip a",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-built.json",
+  "divergesFromBaseline": false,
+  "baselineReasons": []
+}
