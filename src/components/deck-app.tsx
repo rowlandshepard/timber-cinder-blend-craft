@@ -163,7 +163,7 @@ export function DeckApp() {
             Cell Division Cards
           </h1>
           <p className="mt-2 max-w-xl text-sm text-muted">
-            The cell and cell division. Flip a card, then mark what you know.
+            The cell and cell division. Flip for the lecture image and answer.
           </p>
         </div>
         <p className="font-display text-sm tabular-nums text-muted">
@@ -207,33 +207,48 @@ export function DeckApp() {
         </div>
       </div>
 
-      <div className="scene mx-auto h-[22rem] w-full max-w-xl sm:h-[24rem]">
-        <button
-          type="button"
+      <div className="mx-auto h-[28rem] w-full max-w-2xl sm:h-[34rem]">
+        <div
           className={cn("flip-card", flipped && "is-flipped")}
-          onClick={flip}
-          aria-label={flipped ? "Show question" : "Show answer"}
         >
-          <div className="flip-face border border-border bg-surface p-8 shadow-[0_24px_48px_-24px_rgba(0,0,0,0.55)] sm:p-10">
-            <p className="mb-5 text-[0.7rem] font-medium uppercase tracking-[0.16em] text-sage">
+          <button
+            type="button"
+            className="flip-face flex flex-col border border-border bg-surface p-7 text-left shadow-[0_24px_48px_-24px_rgba(0,0,0,0.55)] sm:p-9"
+            onClick={flip}
+            aria-label="Show answer and lecture image"
+          >
+            <p className="mb-4 text-[0.7rem] font-medium uppercase tracking-[0.16em] text-sage">
               Question
             </p>
             <p className="font-display text-xl font-medium leading-snug text-fg sm:text-2xl">
               {card.question}
             </p>
-            <p className="absolute bottom-6 left-8 right-8 text-xs text-subtle">
-              Tap or press Space to flip
+            <p className="mt-auto text-xs text-subtle">
+              Tap the card or Flip to see the lecture slide
             </p>
-          </div>
-          <div className="flip-face flip-back border border-border bg-surface-2 p-8 shadow-[0_24px_48px_-24px_rgba(0,0,0,0.55)] sm:p-10">
-            <p className="mb-5 text-[0.7rem] font-medium uppercase tracking-[0.16em] text-sage">
-              Answer
+          </button>
+          <button
+            type="button"
+            className="flip-face flip-back flex flex-col gap-3 overflow-hidden border border-border bg-surface-2 p-4 text-left shadow-[0_24px_48px_-24px_rgba(0,0,0,0.55)] sm:p-5"
+            onClick={flip}
+            aria-label="Show question"
+          >
+            <p className="text-[0.7rem] font-medium uppercase tracking-[0.16em] text-sage">
+              Lecture slide
             </p>
-            <p className="text-base leading-relaxed text-fg sm:text-lg">
+            <div className="min-h-0 flex-[1.6] overflow-hidden rounded-lg border border-border bg-bg">
+              <img
+                src={card.image}
+                alt={card.imageAlt}
+                className="h-full w-full object-contain"
+                draggable={false}
+              />
+            </div>
+            <p className="max-h-[32%] overflow-y-auto text-sm leading-relaxed text-fg sm:text-base">
               {card.answer}
             </p>
-          </div>
-        </button>
+          </button>
+        </div>
       </div>
 
       <div className="mx-auto flex w-full max-w-xl flex-wrap items-center justify-center gap-2">

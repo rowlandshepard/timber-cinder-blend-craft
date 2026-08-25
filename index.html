@@ -4,100 +4,71 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Cell Division Cards</title>
-  <meta name="description" content="Study flashcards for Lecture 3 — The Cell and Cell Division." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <style>
     :root {
-      --bg: #0b0c0b;
-      --surface: #141614;
-      --surface-2: #1b1e1b;
-      --fg: #eef1ee;
-      --muted: #8e948c;
-      --subtle: #6b716c;
-      --accent: #d7ddd4;
-      --accent-fg: #0b0c0b;
-      --sage: #a8b5aa;
-      --border: #2a2d2a;
-      --radius: 24px;
+      --bg:#0b0c0b; --surface:#141614; --surface-2:#1b1e1b; --fg:#eef1ee;
+      --muted:#8e948c; --subtle:#6b716c; --accent:#d7ddd4; --accent-fg:#0b0c0b;
+      --sage:#a8b5aa; --border:#2a2d2a;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body {
-      min-height: 100%;
-      background: var(--bg);
-      color: var(--fg);
-      font-family: "Segoe UI", system-ui, sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-    body { padding: 2rem 1rem 3rem; }
-    .wrap { max-width: 40rem; margin: 0 auto; }
-    .eyebrow {
-      font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--sage); font-weight: 600; margin-bottom: 0.35rem;
-    }
-    h1 {
-      font-weight: 500; font-size: clamp(1.8rem, 5vw, 2.4rem);
-      letter-spacing: -0.03em;
-    }
-    .lede { color: var(--muted); margin-top: 0.5rem; font-size: 0.95rem; }
-    .scene { perspective: 1400px; height: 22rem; margin: 1.5rem 0; }
-    .card {
-      width: 100%; height: 100%; position: relative;
-      transform-style: preserve-3d;
-      transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
-      cursor: pointer; border: 0; background: none; color: inherit;
-    }
-    .card.flipped { transform: rotateY(180deg); }
-    .face {
-      position: absolute; inset: 0; backface-visibility: hidden;
-      border-radius: var(--radius); border: 1px solid var(--border);
-      background: var(--surface); padding: 2rem 1.75rem; text-align: left;
-      display: flex; flex-direction: column;
-    }
-    .back { transform: rotateY(180deg); background: var(--surface-2); }
-    .label {
-      font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
-      color: var(--sage); font-weight: 600; margin-bottom: 1rem;
-    }
-    .q { font-size: 1.35rem; line-height: 1.3; }
-    .a { font-size: 1.05rem; line-height: 1.55; }
-    .hint { margin-top: auto; font-size: 0.75rem; color: var(--subtle); }
-    .bar { height: 4px; background: var(--surface-2); border-radius: 99px; overflow: hidden; margin: 0.75rem 0 0.25rem; }
-    .fill { height: 100%; background: var(--sage); width: 0%; }
-    .meta { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.85rem; }
-    .row { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-top: 1rem; }
-    button.ctrl {
-      height: 44px; padding: 0 1rem; border-radius: 12px; border: 1px solid var(--border);
-      background: var(--surface); color: var(--fg); font: 600 0.9rem/1 system-ui, sans-serif;
-      cursor: pointer;
-    }
-    button.ctrl.primary { background: var(--accent); color: var(--accent-fg); border-color: transparent; }
-    button.ctrl:disabled { opacity: 0.4; cursor: not-allowed; }
-    .keys { text-align: center; color: var(--subtle); font-size: 0.75rem; margin-top: 1.25rem; }
-    @media (prefers-reduced-motion: reduce) { .card { transition: none; } }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html,body { min-height:100%; background:var(--bg); color:var(--fg); font-family:"Segoe UI",system-ui,sans-serif; }
+    body { padding:2rem 1rem 3rem; }
+    .wrap { max-width:40rem; margin:0 auto; }
+    .eyebrow { font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:var(--sage); font-weight:600; }
+    h1 { font-weight:500; font-size:clamp(1.8rem,5vw,2.4rem); letter-spacing:-.03em; margin-top:.35rem; }
+    .lede { color:var(--muted); margin-top:.5rem; font-size:.95rem; }
+    .chips { display:flex; gap:.5rem; overflow-x:auto; padding:1rem 0 .25rem; scrollbar-width:none; }
+    .chip { height:36px; padding:0 14px; border-radius:999px; border:1px solid var(--border); background:var(--surface); color:var(--muted); font:500 .85rem/1 system-ui; white-space:nowrap; cursor:pointer; }
+    .chip.on { background:var(--accent); color:var(--accent-fg); border-color:transparent; }
+    .meta { display:flex; justify-content:space-between; color:var(--muted); font-size:.85rem; }
+    .bar { height:4px; background:var(--surface-2); border-radius:99px; overflow:hidden; margin:.75rem 0 1rem; }
+    .fill { height:100%; background:var(--sage); width:0; }
+    .scene { height:34rem; }
+    .card { width:100%; height:100%; position:relative; cursor:pointer; border:0; background:none; color:inherit; }
+    .face { position:absolute; inset:0; border-radius:24px; border:1px solid var(--border); background:var(--surface); padding:1.5rem; display:flex; flex-direction:column; text-align:left; opacity:1; visibility:visible; transition:opacity 250ms ease, visibility 250ms ease; }
+    .back { background:var(--surface-2); opacity:0; visibility:hidden; pointer-events:none; }
+    .card.flipped .face:not(.back) { opacity:0; visibility:hidden; pointer-events:none; }
+    .card.flipped .back { opacity:1; visibility:visible; pointer-events:auto; }
+    .label { font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--sage); font-weight:600; margin-bottom:.75rem; }
+    .q { font-size:1.3rem; line-height:1.3; }
+    .hint { margin-top:auto; font-size:.75rem; color:var(--subtle); }
+    .pic { flex:1; min-height:0; border-radius:12px; border:1px solid var(--border); background:var(--bg); overflow:hidden; }
+    .pic img { width:100%; height:100%; object-fit:contain; }
+    .a { margin-top:.75rem; font-size:.95rem; line-height:1.5; max-height:38%; overflow:auto; }
+    .row { display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; margin-top:1rem; }
+    button.ctrl { height:44px; padding:0 1rem; border-radius:12px; border:1px solid var(--border); background:var(--surface); color:var(--fg); font:600 .9rem/1 system-ui; cursor:pointer; }
+    button.ctrl.primary { background:var(--accent); color:var(--accent-fg); border-color:transparent; }
+    button.ctrl:disabled { opacity:.4; cursor:not-allowed; }
+    .keys { text-align:center; color:var(--subtle); font-size:.75rem; margin-top:1.25rem; }
+    @media (prefers-reduced-motion:reduce){ .card{transition:none;} }
   </style>
 </head>
 <body>
   <div class="wrap">
     <p class="eyebrow">Lecture 3</p>
     <h1>Cell Division Cards</h1>
-    <p class="lede">The cell and cell division. Tap a card to flip it.</p>
-    <div class="meta"><span id="counter">1 / 1</span><span id="topic"></span></div>
+    <p class="lede">Study-guide flashcards. Flip to see the lecture image and answer.</p>
+    <div class="chips" id="chips"></div>
+    <div class="meta"><span id="counter"></span><span id="topic"></span></div>
     <div class="bar"><div class="fill" id="fill"></div></div>
     <div class="scene">
       <button class="card" id="card" type="button" aria-label="Flip flashcard">
         <div class="face">
           <div class="label">Question</div>
           <div class="q" id="q"></div>
-          <div class="hint">Tap or press Space to flip</div>
+          <div class="hint">Tap the card or Flip to see the lecture slide</div>
         </div>
         <div class="face back">
-          <div class="label">Answer</div>
+          <div class="label">Lecture slide</div>
+          <div class="pic"><img id="img" alt=""></div>
           <div class="a" id="a"></div>
         </div>
       </button>
     </div>
     <div class="row">
       <button class="ctrl" id="prev" type="button">Prev</button>
-      <button class="ctrl primary" id="flip" type="button">Flip</button>
+      <button class="ctrl primary" id="flipBtn" type="button">Flip</button>
       <button class="ctrl" id="next" type="button">Next</button>
       <button class="ctrl" id="shuffle" type="button">Shuffle</button>
       <button class="ctrl" id="reset" type="button">Reset</button>
@@ -105,85 +76,52 @@
     <p class="keys">Space flip · arrows navigate · S shuffle</p>
   </div>
   <script>
-    const CARDS = [
-      { t: "Junctions", q: "What are the three types of intercellular junctions and their main roles?", a: "Tight junctions seal cells so substances cannot pass between them. Desmosomes give mechanical strength. Gap junctions form channels so molecules can flow and cells can coordinate." },
-      { t: "Growth", q: "Define hypertrophy versus hyperplasia.", a: "Hypertrophy is an increase in cell size. Hyperplasia is an increase in cell number." },
-      { t: "Growth", q: "What do atrophy, metaplasia, and neoplasia mean?", a: "Atrophy: shrinkage by smaller or fewer cells. Metaplasia: one cell type changes into another. Neoplasia: uncontrolled growth that forms a tumor. Dysplasia is a pre-neoplastic change." },
-      { t: "Death", q: "How does necrosis differ from apoptosis?", a: "Necrosis follows severe damage: contents spill out and trigger inflammation. Apoptosis is programmed death: lysosomes digest contents inside the cell, so there is no spill and no inflammatory response." },
-      { t: "Organelles", q: "What is cytoplasm?", a: "Cytoplasm is cytosol plus organelles. Cytosol is the jelly-like intracellular fluid that holds dissolved nutrients." },
-      { t: "Organelles", q: "What is the function of mitochondria?", a: "They produce ATP — the powerhouse of the cell. Folded inner membranes increase surface area so energy production is more efficient." },
-      { t: "Organelles", q: "How do rough ER and smooth ER differ?", a: "Rough ER is studded with ribosomes and makes proteins for export, the plasma membrane, or lysosomes. Smooth ER makes lipids and carbohydrates, stores calcium, and detoxifies — it is especially well developed in the liver." },
-      { t: "Organelles", q: "What does the Golgi apparatus do?", a: "It modifies, packages, and ships proteins in vesicles. Material from the rough ER is received, processed, then sent to the membrane, secreted, or stored as lysosomes." },
-      { t: "Organelles", q: "How do lysosomes differ from peroxisomes?", a: "Lysosomes digest food, bacteria, and worn-out organelles. Peroxisomes break down hydrogen peroxide and help prevent oxygen free-radical damage." },
-      { t: "Organelles", q: "Where are ribosomes found, and what do they make?", a: "Free ribosomes make proteins used inside the cell. Ribosomes on the rough ER make proteins for export, membranes, or lysosomes." },
-      { t: "Organelles", q: "What is the nucleus’s job, and what is chromatin?", a: "The nucleus controls protein synthesis via DNA. Chromatin is DNA wrapped around histone proteins. The nucleolus makes ribosomes. Nuclear pores let mRNA leave the nucleus." },
-      { t: "Cytoskeleton", q: "Name the three cytoskeleton fiber sizes.", a: "Microfilaments (small), intermediate filaments (medium), and microtubules (large)." },
-      { t: "Cytoskeleton", q: "What do cilia, flagella, and microvilli do?", a: "Cilia beat to move mucus and debris. Flagella produce directional movement. Microvilli increase surface area for absorption." },
-      { t: "Cytoskeleton", q: "What is the mitotic spindle made of?", a: "Microtubules plus centrosomes. The spindle pulls sister chromatids apart so each daughter cell gets the right DNA." },
-      { t: "Clinical", q: "What happens in primary ciliary dyskinesia (PCD)?", a: "Non-functional cilia so mucus is not cleared — chronic infections. About a 50% chance of situs inversus. It is not cystic fibrosis." },
-      { t: "Dogma", q: "What is the Central Dogma sequence?", a: "DNA is transcribed to mRNA. mRNA is translated into protein at a ribosome." },
-      { t: "Dogma", q: "Which part of the Central Dogma is the source of a genetic disease?", a: "Faulty DNA. Mutations produce abnormal proteins." },
-      { t: "Cell cycle", q: "What happens in S phase of interphase?", a: "DNA is replicated. Each chromosome becomes two identical sister chromatids." },
-      { t: "Cell cycle", q: "Name the four phases of mitosis in order.", a: "Prophase, metaphase, anaphase, telophase — followed by cytokinesis." },
-      { t: "Cell cycle", q: "What occurs during prophase?", a: "Chromosomes condense, the nuclear envelope disappears, and the mitotic spindle begins to form." },
-      { t: "Cell cycle", q: "What occurs during metaphase?", a: "The spindle lines chromosomes up along the metaphase plate — the equator of the cell." },
-      { t: "Cell cycle", q: "What occurs during anaphase?", a: "Sister chromatids separate and migrate to opposite poles." },
-      { t: "Cell cycle", q: "What happens in telophase, and what is cytokinesis?", a: "Daughter nuclei form and the nuclear envelope reforms. Cytokinesis divides the cytoplasm into two cells." },
-      { t: "Cell cycle", q: "What is the outcome of mitosis?", a: "Two genetically identical daughter cells. Mitosis preserves the original genetic information." },
-      { t: "Cell cycle", q: "How do homologous chromosomes differ from sister chromatids?", a: "Homologous chromosomes are the two non-identical parental copies (23 pairs in humans). Sister chromatids are identical copies created in S phase." }
-    ];
-    let order = CARDS.map((_, i) => i);
-    let i = 0;
-    let flipped = false;
-    const el = {
-      card: document.getElementById("card"),
-      q: document.getElementById("q"),
-      a: document.getElementById("a"),
-      counter: document.getElementById("counter"),
-      topic: document.getElementById("topic"),
-      fill: document.getElementById("fill"),
-      prev: document.getElementById("prev"),
-      next: document.getElementById("next"),
-      flip: document.getElementById("flip"),
-      shuffle: document.getElementById("shuffle"),
-      reset: document.getElementById("reset"),
-    };
+    const CARDS = [{"t": "Overview", "q": "How does cell shape relate to function? Name examples from different body regions.", "a": "Structure determines function. Skin cells form flat sheets; respiratory cells are tall with cilia; skeletal muscle is striated; neurons are long; sperm have flagella. Each shape matches its job.", "img": "/slides/image2.jpg", "alt": "Lecture slide: many cell types from the body"}, {"t": "Overview", "q": "Which image shows cells from the skin, and why?", "a": "Sheets of flat cells that line a surface. Skin epithelium is a barrier of stacked flattened cells (not ciliated columns, not striated muscle).", "img": "/slides/image4.jpg", "alt": "Sheets of flat cells lining a surface"}, {"t": "Overview", "q": "Which image shows cells from the respiratory tract, and why?", "a": "Tall cells with cilia. Airway epithelium uses beating cilia to move mucus and debris out of the tract.", "img": "/slides/image3.jpg", "alt": "Tall ciliated cells from the respiratory tract"}, {"t": "Overview", "q": "Which image shows cells from skeletal muscle, and why?", "a": "Striated cells. Skeletal muscle fibers are long, striped cells built to contract.", "img": "/slides/image5.jpg", "alt": "Striated skeletal muscle cells"}, {"t": "Junctions", "q": "Name the three types of intercellular junctions and their main roles.", "a": "Tight junctions seal (no paracellular leak). Desmosomes give mechanical strength. Gap junctions form channels so molecules and signals can pass between cells.", "img": "/slides/image6.jpg", "alt": "Lecture diagram of tight junctions, desmosomes, and gap junctions"}, {"t": "Junctions", "q": "What do tight junctions do?", "a": "They completely fuse neighboring membranes, block substances from slipping between cells, and force material to travel through the cells.", "img": "/slides/image6.jpg", "alt": "Tight junction region of the lecture diagram"}, {"t": "Junctions", "q": "What do desmosomes do?", "a": "They do not fully fuse cells. They are the strongest mechanical attachments, holding tissues together under stress.", "img": "/slides/image6.jpg", "alt": "Desmosome region of the lecture diagram"}, {"t": "Junctions", "q": "What do gap junctions do?", "a": "They open a passageway between cells so small molecules can flow freely and coordinate activity (for example in heart muscle).", "img": "/slides/image6.jpg", "alt": "Gap junction region of the lecture diagram"}, {"t": "Growth", "q": "Define hypertrophy versus hyperplasia.", "a": "Hypertrophy = cells get larger. Hyperplasia = more cells. Weight training is a classic hypertrophy example.", "img": "/slides/hypertrophy.svg", "alt": "Diagram comparing normal cells to larger hypertrophic cells"}, {"t": "Growth", "q": "Which pattern is hyperplasia?", "a": "An increase in the number of cells in an area, not just their size.", "img": "/slides/hyperplasia.svg", "alt": "Diagram of increased cell number"}, {"t": "Growth", "q": "What is atrophy?", "a": "Shrinkage of tissue by a decrease in cell size or cell number (for example unused muscle).", "img": "/slides/atrophy.svg", "alt": "Diagram of smaller or fewer cells"}, {"t": "Growth", "q": "What is metaplasia?", "a": "One mature cell type changes into another — a switch, not just more of the same cells.", "img": "/slides/metaplasia.svg", "alt": "Diagram of one cell type changing into another"}, {"t": "Growth", "q": "What are neoplasia and dysplasia?", "a": "Neoplasia is out-of-control growth that forms a tumor. Dysplasia is the disordered, pre-neoplastic change that can come first.", "img": "/slides/neoplasia.svg", "alt": "Diagram of disordered uncontrolled growth"}, {"t": "Death", "q": "How does necrosis differ from apoptosis?", "a": "Necrosis is death after severe damage: contents spill and trigger inflammation. Apoptosis is programmed suicide: lysosomes digest contents inside, so nothing spills and there is no immune flare.", "img": "/slides/image7.jpg", "alt": "Lecture image of embryonic paddle apoptosis forming digits"}, {"t": "Death", "q": "Give the embryonic example of apoptosis from lecture.", "a": "Apoptosis of the embryonic paddle carves out the spaces between digits so fingers and toes form. If it fails, digits stay webbed.", "img": "/slides/image7.jpg", "alt": "Embryonic paddle with digits forming by apoptosis"}, {"t": "Anatomy", "q": "What are the three basic parts of a eukaryotic cell?", "a": "Plasma membrane, nucleus, and cytoplasm. Cytoplasm = cytosol + organelles.", "img": "/slides/image2.jpg", "alt": "Standard eukaryotic cell with membrane, nucleus, and cytoplasm"}, {"t": "Anatomy", "q": "What is cytosol?", "a": "The jelly-like intracellular fluid that fills the cell and holds dissolved nutrients. Together with organelles it makes cytoplasm.", "img": "/slides/image2.jpg", "alt": "Cell diagram highlighting cytoplasm"}, {"t": "Organelles", "q": "What is the function of mitochondria?", "a": "ATP production — the powerhouse. Folded inner membranes increase surface area so energy-making is more efficient.", "img": "/slides/image8.jpg", "alt": "Lecture drawing of a mitochondrion with folded membranes"}, {"t": "Organelles", "q": "How do rough ER and smooth ER differ?", "a": "Rough ER has ribosomes and makes proteins for export, the membrane, or lysosomes. Smooth ER makes lipids and carbohydrates, stores calcium, and detoxifies (especially in liver).", "img": "/slides/image9.jpg", "alt": "Lecture diagram of rough ER, smooth ER, nucleus, and ribosomes"}, {"t": "Organelles", "q": "What does the Golgi apparatus do?", "a": "It modifies, packages, and ships proteins in vesicles — “RER part II.” Cargo can enter the membrane, be secreted, or become lysosomes.", "img": "/slides/image11.jpg", "alt": "Lecture pathway of protein synthesis, modification, and shipping"}, {"t": "Organelles", "q": "What do lysosomes do?", "a": "Digestion. Enzyme-filled vesicles from the RER break down food, bacteria, and worn-out organelles — the cell’s digestive system.", "img": "/slides/image12.jpg", "alt": "Lecture drawing of a lysosome"}, {"t": "Organelles", "q": "What do peroxisomes do?", "a": "Protection. They break down hydrogen peroxide and limit oxygen free radicals — like a lymphatic/immune organelle.", "img": "/slides/image13.jpg", "alt": "Lecture drawing of peroxisomes scavenging free radicals"}, {"t": "Organelles", "q": "Where are ribosomes found, and what do they make?", "a": "Free in cytosol → proteins for use inside the cell. On rough ER → proteins for export, membranes, or lysosomes. Bacterial ribosomes differ, which is why some antibiotics can spare human cells.", "img": "/slides/image14.jpg", "alt": "Lecture diagram of ribosomal subunits"}, {"t": "Organelles", "q": "What does the nucleus do? Define chromatin.", "a": "It controls protein synthesis (the “brain”). Chromatin is DNA plus histones. The nucleolus makes ribosomes. Nuclear pores let mRNA leave.", "img": "/slides/image21.jpg", "alt": "Lecture cartoon of the nucleus"}, {"t": "Organelles", "q": "What is the nuclear envelope, and how does mRNA leave?", "a": "A specialized double membrane with pores. mRNA exits through nuclear pores to reach ribosomes in the cytoplasm or on RER.", "img": "/slides/image23.jpg", "alt": "Lecture diagram of nucleus, nucleolus, pores, and envelope"}, {"t": "Cytoskeleton", "q": "Name the three cytoskeleton fiber sizes.", "a": "Microfilaments (small), intermediate filaments (medium), microtubules (large). They provide structure and movement — the cell’s musculoskeletal system.", "img": "/slides/image16.jpg", "alt": "Lecture diagram of centrosomes and microtubules"}, {"t": "Cytoskeleton", "q": "What do cilia, flagella, and microvilli do?", "a": "Cilia beat to clear mucus. Flagella drive directional movement (sperm). Microvilli increase surface area for absorption.", "img": "/slides/image17.jpg", "alt": "Lecture figure of cilia power and return strokes"}, {"t": "Cytoskeleton", "q": "What is the mitotic spindle made of, and what does it do?", "a": "Microtubules plus centrosomes (pairs of centrioles). The spindle pulls sister chromatids so each daughter cell gets the right DNA.", "img": "/slides/image16.jpg", "alt": "Mitotic spindle formed from microtubules and centrosomes"}, {"t": "Clinical", "q": "Enrique has situs inversus and recurrent pneumonia but not cystic fibrosis. What disease is suspected?", "a": "Primary ciliary dyskinesia (PCD): cells make non-functional cilia, so mucus is not cleared.", "img": "/slides/image19.jpg", "alt": "Lecture case-study figure for situs inversus and PCD"}, {"t": "Clinical", "q": "How could non-functional cilia cause runny nose, cough, and pneumonia?", "a": "Without a working mucociliary escalator, mucus and microbes sit in the airways and sinuses, leading to chronic infection.", "img": "/slides/image20.jpg", "alt": "Normal cilia versus Enrique’s disordered cilia"}, {"t": "Clinical", "q": "Why do people with PCD have a 50% chance of situs inversus?", "a": "Embryonic cilia help place organs. If they do not beat, left–right placement is random — about half of PCD patients have reversed organs.", "img": "/slides/image19.jpg", "alt": "Situs inversus case image from the lecture"}, {"t": "Dogma", "q": "State the Central Dogma.", "a": "DNA is transcribed to mRNA in the nucleus. mRNA is translated into protein at a ribosome. True of all life.", "img": "/slides/image24.jpg", "alt": "Lecture Central Dogma: DNA to RNA to protein"}, {"t": "Dogma", "q": "Which part of the Central Dogma is the source of a genetic disease?", "a": "Faulty DNA. Mutations produce abnormal proteins (CFTR in cystic fibrosis, hemoglobin in sickle-cell anemia).", "img": "/slides/image24.jpg", "alt": "Central Dogma diagram used to locate the source of genetic disease"}, {"t": "Dogma", "q": "Give examples of proteins the nucleus ultimately controls.", "a": "Receptors (insulin, LDL), channels (CFTR), hemoglobin, histones, lysosomal and digestive enzymes, pigments for hair and eye color.", "img": "/slides/image26.jpg", "alt": "Lecture figure of transcription"}, {"t": "Cell cycle", "q": "What are the two big stages of the cell cycle?", "a": "Interphase (most of a cell’s life: activity and growth) and mitosis (division). All cells divide, including prokaryotes.", "img": "/slides/image29.jpg", "alt": "Lecture cell-cycle wheel"}, {"t": "Cell cycle", "q": "How do homologous chromosomes differ from sister chromatids?", "a": "Homologs are the two non-identical parental copies (23 pairs in humans). Sister chromatids are identical copies made in S phase, joined until anaphase.", "img": "/slides/image33.jpg", "alt": "Lecture comparison of homologous pairs versus sisters"}, {"t": "Cell cycle", "q": "What happens in G1, S, and G2 of interphase?", "a": "G1: growth and normal work. S: DNA replicates and sister chromatids form. G2: preparation for mitosis.", "img": "/slides/image34.jpg", "alt": "Lecture interphase cell with chromatin and centrosomes"}, {"t": "Cell cycle", "q": "Name the four phases of mitosis in order.", "a": "Prophase → metaphase → anaphase → telophase, then cytokinesis divides the cytoplasm.", "img": "/slides/image36.jpg", "alt": "Cells in various phases of mitosis"}, {"t": "Cell cycle", "q": "What occurs during prophase?", "a": "Chromosomes condense, the nuclear envelope disappears, and the mitotic spindle begins to form.", "img": "/slides/image37.jpg", "alt": "Actual cell in prophase"}, {"t": "Cell cycle", "q": "What occurs during metaphase?", "a": "The spindle lines sister chromatids up on the metaphase plate — the equator of the cell.", "img": "/slides/image40.jpg", "alt": "Actual cell in metaphase"}, {"t": "Cell cycle", "q": "What occurs during anaphase?", "a": "Sister chromatids separate and move to opposite poles — the actual division of genetic material. Non-disjunction can happen here.", "img": "/slides/image42.jpg", "alt": "Actual cell in anaphase"}, {"t": "Cell cycle", "q": "What happens in telophase, and what is cytokinesis?", "a": "Daughter nuclei form, the spindle fades, and the nuclear envelope reforms. Cytokinesis splits the cytoplasm (cleavage furrow in animal cells).", "img": "/slides/image39.jpg", "alt": "Lecture figure of telophase and cleavage furrow"}, {"t": "Summary", "q": "What is the outcome of mitosis, and why does that matter?", "a": "One division → two genetically identical daughter cells. Mitosis carefully preserves genetic information for growth, healing, and maintenance.", "img": "/slides/image45.jpg", "alt": "Mitosis summary from the lecture: identical daughter cells"}, {"t": "Summary", "q": "How do structure–function and clinical disease connect in this lecture?", "a": "Anatomy controls physiology from organelle to tissue. Many disorders (PCD, CF, sickle cell) map to a specific organelle, cytoskeletal, or DNA defect.", "img": "/slides/image1.jpg", "alt": "Lecture title slide: The Cell and Cell Division"}];
+    const topics = ["All", ...new Set(CARDS.map(c => c.t))];
+    let topic = "All";
+    let order = CARDS.map((_,i)=>i);
+    let i = 0, flipped = false;
+    const $ = id => document.getElementById(id);
+    function deck() {
+      return order.map(n => CARDS[n]).filter(c => topic==="All" || c.t===topic);
+    }
+    function renderChips() {
+      $("chips").innerHTML = topics.map(t => `<button class="chip${t===topic?' on':''}" data-t="${t}">${t}</button>`).join("");
+      $("chips").querySelectorAll(".chip").forEach(b => b.onclick = () => { topic=b.dataset.t; i=0; flipped=false; render(); });
+    }
     function render() {
-      const c = CARDS[order[i]];
-      el.q.textContent = c.q;
-      el.a.textContent = c.a;
-      el.topic.textContent = c.t;
-      el.counter.textContent = (i + 1) + " / " + CARDS.length;
-      el.fill.style.width = ((i + 1) / CARDS.length * 100) + "%";
-      el.card.classList.toggle("flipped", flipped);
-      el.prev.disabled = i === 0;
-      el.next.disabled = i === CARDS.length - 1;
+      const d = deck();
+      if (!d.length) return;
+      if (i>=d.length) i=0;
+      const c = d[i];
+      $("q").textContent = c.q;
+      $("a").textContent = c.a;
+      $("img").src = c.img;
+      $("img").alt = c.alt;
+      $("topic").textContent = c.t;
+      $("counter").textContent = (i+1)+" / "+d.length;
+      $("fill").style.width = ((i+1)/d.length*100)+"%";
+      $("card").classList.toggle("flipped", flipped);
+      $("prev").disabled = i===0;
+      $("next").disabled = i===d.length-1;
+      renderChips();
     }
-    function flip() { flipped = !flipped; el.card.classList.toggle("flipped", flipped); }
-    function go(d) {
-      const n = i + d;
-      if (n < 0 || n >= CARDS.length) return;
-      i = n; flipped = false; render();
-    }
-    el.card.addEventListener("click", flip);
-    el.flip.addEventListener("click", (e) => { e.stopPropagation(); flip(); });
-    el.prev.addEventListener("click", () => go(-1));
-    el.next.addEventListener("click", () => go(1));
-    el.shuffle.addEventListener("click", () => {
-      for (let x = order.length - 1; x > 0; x--) {
-        const y = Math.floor(Math.random() * (x + 1));
-        [order[x], order[y]] = [order[y], order[x]];
-      }
-      i = 0; flipped = false; render();
-    });
-    el.reset.addEventListener("click", () => {
-      order = CARDS.map((_, n) => n); i = 0; flipped = false; render();
-    });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === " " || e.key === "Enter") { e.preventDefault(); flip(); }
-      else if (e.key === "ArrowLeft") go(-1);
-      else if (e.key === "ArrowRight") go(1);
-      else if (e.key === "s" || e.key === "S") el.shuffle.click();
+    function flip(){ flipped=!flipped; $("card").classList.toggle("flipped", flipped); }
+    function go(dlt){ const d=deck(); const n=i+dlt; if(n<0||n>=d.length) return; i=n; flipped=false; render(); }
+    $("card").onclick = flip;
+    $("flipBtn").onclick = e => { e.stopPropagation(); flip(); };
+    $("prev").onclick = () => go(-1);
+    $("next").onclick = () => go(1);
+    $("shuffle").onclick = () => {
+      for (let x=order.length-1;x>0;x--){ const y=Math.floor(Math.random()*(x+1)); [order[x],order[y]]=[order[y],order[x]]; }
+      i=0; flipped=false; render();
+    };
+    $("reset").onclick = () => { order=CARDS.map((_,n)=>n); topic="All"; i=0; flipped=false; render(); };
+    document.addEventListener("keydown", e => {
+      if (e.key===" "||e.key==="Enter"){ e.preventDefault(); flip(); }
+      else if (e.key==="ArrowLeft") go(-1);
+      else if (e.key==="ArrowRight") go(1);
+      else if (e.key==="s"||e.key==="S") $("shuffle").click();
     });
     render();
   </script>

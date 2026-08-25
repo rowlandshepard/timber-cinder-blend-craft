@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cell & Cell Division Flashcards</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --accent: #38bdf8;
+      --accent-dark: #0ea5e9;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --success: #4ade80;
+      --border: #334155;
+      --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: linear-gradient(145deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+      min-height: 100vh;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 1.75rem;
+      max-width: 720px;
+    }
+
+    header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(90deg, #38bdf8, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.35rem;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .progress-bar {
+      width: min(420px, 90vw);
+      height: 6px;
+      background: var(--border);
+      border-radius: 999px;
+      margin: 1.25rem auto 0.5rem;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #a78bfa);
+      border-radius: 999px;
+      transition: width 0.35s ease;
+      width: 0%;
+    }
+
+    .counter {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-container {
+      perspective: 1200px;
+      width: min(520px, 92vw);
+      height: 320px;
+      margin-bottom: 1.75rem;
+    }
+
+    .card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.55s cubic-bezier(0.4, 0.2, 0.2, 1);
+      cursor: pointer;
+      border-radius: 1.1rem;
+      box-shadow: var(--shadow);
+    }
+
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1.75rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .card-front {
+      background: linear-gradient(160deg, #1e293b 0%, #0f172a 100%);
+    }
+
+    .card-back {
+      background: linear-gradient(160deg, #1e3a5f 0%, #0f172a 100%);
+      transform: rotateY(180deg);
+    }
+
+    .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      margin-bottom: 0.85rem;
+      font-weight: 600;
+    }
+
+    .card-back .label {
+      color: var(--success);
+    }
+
+    .card-content {
+      font-size: clamp(1.05rem, 2.8vw, 1.3rem);
+      line-height: 1.45;
+      font-weight: 500;
+    }
+
+    .card-back .card-content {
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      font-weight: 400;
+      color: #e2e8f0;
+    }
+
+    .hint {
+      margin-top: 1.1rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      opacity: 0.8;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    button {
+      appearance: none;
+      border: none;
+      border-radius: 0.65rem;
+      padding: 0.7rem 1.25rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0f172a;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--card-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: #334155;
+      border-color: #475569;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid transparent;
+    }
+
+    .btn-ghost:hover {
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .keyboard-hint {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 0.5rem;
+      max-width: 420px;
+      line-height: 1.5;
+    }
+
+    .keyboard-hint kbd {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.1rem 0.4rem;
+      font-size: 0.75rem;
+      font-family: inherit;
+    }
+
+    footer {
+      margin-top: auto;
+      padding-top: 2rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* Small screens */
+    @media (max-width: 480px) {
+      .card-container {
+        height: 280px;
+      }
+      .controls button {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>The Cell & Cell Division</h1>
+    <p>Interactive flashcards · Lecture 3</p>
+  </header>
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progress"></div>
+  </div>
+  <div class="counter" id="counter">1 / 20</div>
+
+  <div class="card-container">
+    <div class="card" id="card" role="button" tabindex="0" aria-label="Flashcard — click or press Space to flip">
+      <div class="card-face card-front">
+        <div class="label">Question</div>
+        <div class="card-content" id="question"></div>
+        <div class="hint">Click or press Space to flip</div>
+      </div>
+      <div class="card-face card-back">
+        <div class="label">Answer</div>
+        <div class="card-content" id="answer"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn-secondary" id="prevBtn" title="Previous card (←)">← Prev</button>
+    <button class="btn-primary" id="flipBtn" title="Flip card (Space)">Flip</button>
+    <button class="btn-secondary" id="nextBtn" title="Next card (→)">Next →</button>
+    <button class="btn-ghost" id="shuffleBtn" title="Shuffle deck">Shuffle</button>
+    <button class="btn-ghost" id="resetBtn" title="Reset to start">Reset</button>
+  </div>
+
+  <p class="keyboard-hint">
+    Keyboard: <kbd>Space</kbd> flip · <kbd>←</kbd> <kbd>→</kbd> navigate · <kbd>S</kbd> shuffle
+  </p>
+
+  <footer>
+    Based on Lecture 3 — The Cell and Cell Division
+  </footer>
+
+  <script>
+    const cards = [
+      {
+        q: "What are the three types of intercellular junctions and their main roles?",
+        a: "Tight (seal / prevent passage between cells), Desmosomes (mechanical strength), Gap (communication / molecule passage)"
+      },
+      {
+        q: "Define hypertrophy vs. hyperplasia",
+        a: "Hypertrophy = increase in cell size. Hyperplasia = increase in cell number."
+      },
+      {
+        q: "What is the difference between necrosis and apoptosis?",
+        a: "Necrosis: cell death from damage → contents spill → inflammation. Apoptosis: programmed cell death → contents digested cleanly → no inflammation."
+      },
+      {
+        q: "Cytoplasm = ?",
+        a: "Cytosol + organelles"
+      },
+      {
+        q: "Function of mitochondria?",
+        a: "Produce ATP (“powerhouse” of the cell). Folded membranes increase surface area and efficiency."
+      },
+      {
+        q: "Rough ER vs. Smooth ER",
+        a: "RER: protein synthesis (has ribosomes) — proteins for export, membrane, or lysosomes. SER: lipid/carb synthesis, Ca²⁺ storage, detoxification."
+      },
+      {
+        q: "What does the Golgi apparatus do?",
+        a: "Modifies, packages, and ships proteins in vesicles (often called “RER part II”)."
+      },
+      {
+        q: "Lysosomes vs. Peroxisomes",
+        a: "Lysosomes: digest food, bacteria, and worn-out organelles. Peroxisomes: break down hydrogen peroxide and prevent free-radical damage."
+      },
+      {
+        q: "Where are ribosomes found and what do they make?",
+        a: "Free in cytoplasm → proteins for use inside the cell. On rough ER → proteins for export, membrane, or lysosomes."
+      },
+      {
+        q: "Three cytoskeleton fiber sizes?",
+        a: "Microfilaments (small), Intermediate filaments (medium), Microtubules (large)."
+      },
+      {
+        q: "What do cilia, flagella, and microvilli do?",
+        a: "Cilia: beating movement (clear mucus). Flagella: directional movement (e.g., sperm). Microvilli: increase surface area (absorption)."
+      },
+      {
+        q: "What is the mitotic spindle made of?",
+        a: "Microtubules + centrosomes (each centrosome contains a pair of centrioles)."
+      },
+      {
+        q: "Primary Ciliary Dyskinesia (PCD) consequences?",
+        a: "Non-functional cilia → chronic respiratory infections (poor mucus clearance). Also ~50% chance of situs inversus because cilia help orient organs in the embryo."
+      },
+      {
+        q: "Central Dogma sequence?",
+        a: "DNA → (transcription) mRNA → (translation) Protein"
+      },
+      {
+        q: "Source of genetic diseases in the Central Dogma?",
+        a: "Faulty DNA (mutations lead to abnormal proteins)."
+      },
+      {
+        q: "What happens in S phase?",
+        a: "DNA replication occurs; each chromosome becomes two identical sister chromatids."
+      },
+      {
+        q: "Four phases of mitosis in order?",
+        a: "Prophase → Metaphase → Anaphase → Telophase (followed by cytokinesis)."
+      },
+      {
+        q: "What occurs during anaphase?",
+        a: "Sister chromatids separate and are pulled to opposite poles of the cell (the actual division of genetic material)."
+      },
+      {
+        q: "What is cytokinesis?",
+        a: "Division of the cytoplasm that usually overlaps with telophase, producing two separate daughter cells."
+      },
+      {
+        q: "Outcome of mitosis?",
+        a: "Two genetically identical daughter cells. Mitosis carefully preserves the original genetic information."
+      }
+    ];
+
+    let order = cards.map((_, i) => i);
+    let current = 0;
+    let flipped = false;
+
+    const cardEl = document.getElementById("card");
+    const questionEl = document.getElementById("question");
+    const answerEl = document.getElementById("answer");
+    const counterEl = document.getElementById("counter");
+    const progressEl = document.getElementById("progress");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const flipBtn = document.getElementById("flipBtn");
+    const shuffleBtn = document.getElementById("shuffleBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    function render() {
+      const idx = order[current];
+      const card = cards[idx];
+      questionEl.textContent = card.q;
+      answerEl.textContent = card.a;
+      counterEl.textContent = `${current + 1} / ${cards.length}`;
+      progressEl.style.width = `${((current + 1) / cards.length) * 100}%`;
+      cardEl.classList.toggle("flipped", flipped);
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === cards.length - 1;
+    }
+
+    function flip() {
+      flipped = !flipped;
+      cardEl.classList.toggle("flipped", flipped);
+    }
+
+    function go(delta) {
+      const next = current + delta;
+      if (next < 0 || next >= cards.length) return;
+      current = next;
+      flipped = false;
+      render();
+    }
+
+    function shuffle() {
+      // Fisher–Yates
+      for (let i = order.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [order[i], order[j]] = [order[j], order[i]];
+      }
+      current = 0;
+      flipped = false;
+      render();
+    }
+
+    function reset() {
+      order = cards.map((_, i) => i);
+      current = 0;
+      flipped = false;
+      render();
+    }
+
+    // Event listeners
+    cardEl.addEventListener("click", flip);
+    flipBtn.addEventListener("click", flip);
+    prevBtn.addEventListener("click", () => go(-1));
+    nextBtn.addEventListener("click", () => go(1));
+    shuffleBtn.addEventListener("click", shuffle);
+    resetBtn.addEventListener("click", reset);
+
+    // Keyboard support
+    document.addEventListener("keydown", (e) => {
+      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+      switch (e.key) {
+        case " ":
+        case "Enter":
+          e.preventDefault();
+          flip();
+          break;
+        case "ArrowLeft":
+          e.preventDefault();
+          go(-1);
+          break;
+        case "ArrowRight":
+          e.preventDefault();
+          go(1);
+          break;
+        case "s":
+        case "S":
+          shuffle();
+          break;
+      }
+    });
+
+    // Initial render
+    render();
+  </script>
+</body>
+</html>
